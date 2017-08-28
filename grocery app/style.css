@@ -1,0 +1,125 @@
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+	font-family: 'Open Sans', sans-serif;
+    font-size: 100%;
+    box-sizing: border-box;
+	overflow: hidden;
+}
+
+body {
+    all: inherit;
+}
+
+* {
+	box-sizing: inherit;
+}
+
+.groc-container {
+    font-size: 2rem;
+/*    max-width: 40rem;*/
+    max-width: 25rem;
+	margin: 0 auto;
+    text-align: center;
+	box-shadow: 0 0 40px rgba(0,0,0,.7);
+	overflow: hidden;
+}
+
+.groc-header {
+	background-color: #F9F9F9;
+	border-bottom: 1px solid #C4C4C4;
+/*    height: 10vh;*/
+    line-height: 10vh;
+    padding: 0 15px;
+    text-transform: capitalize;
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
+	position: relative;
+	z-index: 1;
+}
+
+.groc-footer {
+	background-color: #F9F9F9;
+	border-top: 1px solid #C4C4C4;
+	line-height: 10vh;
+    padding: 0 15px;
+    text-transform: capitalize;
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
+	position: relative;
+	z-index: 1;
+}
+
+.groc-main {
+    height: 80vh;
+	position: relative;
+	z-index: 0;
+}
+
+.groc-list {
+/*	background-color: #C4C4C4;*/
+	height: 100%;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.groc-list::-webkit-scrollbar {
+	width: 18px;
+}
+
+.groc-list::-webkit-scrollbar-thumb {
+	border-radius: 100px;
+	background-clip: padding-box;
+	background-color: rgba(204, 204, 204, .5);
+	border: 5px solid transparent;
+}
+
+.groc-list:hover::-webkit-scrollbar-thumb {
+	background-color: rgba(204, 204, 204, 1);
+}
+
+.groc-list__item {
+	background-color: #eee;
+    text-transform: capitalize;
+	border-bottom: 1px solid #C4C4C4;
+	line-height: 12vh;
+	overflow: hidden;
+}
+
+.groc-list__item:last-child {
+	border: none;
+}
+
+.groc-list__item span {
+	position: relative;
+	display: block;
+	background-color: #fff;
+    padding: 0 1rem;
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
+	left: 0;
+	transition: .5s;
+}
+
+.groc-list__item.opened span {
+	left: 5rem;
+}
+
+.groc-list__item span i {
+	position: absolute;
+	top: 50%;
+	margin-top: -1rem;
+	font-size: 2rem;
+	color: #ccc;
+	cursor: pointer;
+}
+
+.groc-list__item span i[class*="left"] {
+	left: 1rem;
+}
+
+.groc-list__item span i[class*="right"] {
+	right: 1rem;
+}
