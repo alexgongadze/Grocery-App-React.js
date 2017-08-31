@@ -10,8 +10,11 @@
 	<script src="https://unpkg.com/react-dom@15.5.4/dist/react-dom.js"></script>
 	<!-- BABEL LIBRARY -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
-	<!-- Font Awesome --><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Open Sans -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+	<!-- Main Styles -->
 	<link rel="stylesheet" href="style.css">
 	<title>Grocery App</title>
 </head>
@@ -21,117 +24,7 @@
 	
 	<script type="text/babel">
 
-		class Dropdown extends React.Component {
-			
-			constructor(props) {
-				super(props);
-				this.state = { isOpened: false };
-			}
-
-			toggleState() {
-				this.setState({ isOpened: !this.state.isOpened });
-			}
-
-			render() {
-				let dropdownText;
-				if (this.state.isOpened) {
-					dropdownText = <div>Here is what is shown in dropdown</div>;
-				}
-				return (
-					<div onClick={this.toggleState.bind(this)}>
-						dropdown
-						{dropdownText}
-					</div>
-				);
-			}
-		}
-
-		function Container() {
-			return(
-				<div className="groc-container">
-					<Header/>
-					<Main list={list}/>
-					<Footer/>
-				</div>
-			);
-		}
-
-			function Header() {
-				return(
-					<header className="groc-header">
-						header
-						{/* <Dropdown/> */}
-					</header>
-				);
-			}
-
-			function Footer() {
-				return(
-					<footer className="groc-footer">footer</footer>
-				);
-			}				
-
-//			function Main(props) {
-//				
-//				let list = props.list.map(item => (
-//					<li className="groc-list__item" key={item.id}>
-//						<span>
-//							<i className="fa fa-angle-left" aria-hidden="true"></i>
-//							{item.name}
-//							<i className="fa fa-angle-right" aria-hidden="true"></i>
-//						</span>
-//					</li>
-//				));
-//				
-//				return(
-//					<main className="groc-main">
-//						<ul className="groc-list">
-//							{list}
-//						</ul>
-//					</main>
-//				);
-//			}				
-
-			class Main extends React.Component {
-			
-				constructor(props) {
-					super(props);
-					this.state = { isOpened: false };
-				}
-
-				toggleState() {
-					this.setState({ isOpened: !this.state.isOpened });
-				}
-				
-				render() {
-					
-					let className = "";
-					
-					if (this.state.isOpened) {
-						className = " opened";
-					}
-				
-					let list = this.props.list.map(item => (
-						<li className={"groc-list__item" + className} key={item.id}>
-							<span>
-								<i className="fa fa-angle-left" aria-hidden="true" onClick={this.toggleState.bind(this)}></i>
-								{item.name}
-								<i className="fa fa-angle-right" aria-hidden="true"></i>
-							</span>
-						</li>
-					));
-
-					return(
-						<main className="groc-main">
-							<ul className="groc-list">
-								{list}
-							</ul>
-						</main>
-					);
-				}
-			}
-
-		let list = [
+		let listArr = [
 			{id: 1, name: "bread"},
 			{id: 2, name: "bacon"},
 			{id: 3, name: "cheese"},
@@ -141,6 +34,97 @@
 			{id: 7, name: "mushrooms"},
 			{id: 8, name: "sauce"}
 		]
+
+		const Container = () => {
+			return(
+				<div className="groc-container">
+					<Header/>
+					<Main/>
+					<Footer/>
+				</div>
+			);
+		};
+
+			const Header = () => <header className="groc-header">header</header>;
+			
+			const Footer = () => <footer className="groc-footer">footer</footer>;		
+
+			class Main extends React.Component {
+			
+				constructor() {
+					super();
+					this.state = {
+						listState: listArr
+					};
+				}
+				
+				_getItems() {
+					return this.state.listState.map(item => <Item key={item.id} name={item.name} />);
+				}
+				
+				render() {
+					
+					const items = this._getItems();
+
+					return(
+						<main className="groc-main">
+							<ul className="groc-list">
+								{items}
+							</ul>
+						</main>
+					);
+				}
+			}
+
+
+				class Item extends React.Component {
+			
+					constructor(props) {
+						super(props);
+						this.state = {
+							isOpenedLeft: false,
+							isOpenedRight: false
+						};
+					}
+
+					toggleStateLeft() {
+						this.setState({
+//							isOpenedRight: false,
+							isOpenedLeft: !this.state.isOpenedLeft
+						});
+					}
+
+					toggleStateRight() {
+						this.setState({
+//							isOpenedLeft: false,
+							isOpenedRight: !this.state.isOpenedRight
+						});
+					}
+				
+					render() {
+					
+						let className = "";
+
+						if (this.state.isOpenedLeft) {
+							className = " opened-left";
+						}
+						
+						if (this.state.isOpenedRight) {
+							className = " opened-right";
+						}
+
+						return(
+							<li className={"groc-list__item" + className}>
+								<span>
+									<i className="fa fa-angle-left" aria-hidden="true" onClick={this.toggleStateLeft.bind(this)}></i>
+									{this.props.name}
+									<i className="fa fa-angle-right" aria-hidden="true" onClick={this.toggleStateRight.bind(this)}></i>
+								</span>
+							</li>
+						);
+					}
+
+				}
 
 		ReactDOM.render(
 			<Container/>,

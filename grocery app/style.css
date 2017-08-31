@@ -18,7 +18,6 @@ body {
 }
 
 .groc-container {
-    font-size: 2rem;
 /*    max-width: 40rem;*/
     max-width: 25rem;
 	margin: 0 auto;
@@ -27,27 +26,26 @@ body {
 	overflow: hidden;
 }
 
-.groc-header {
+.groc-header,
+.groc-footer {
 	background-color: #F9F9F9;
-	border-bottom: 1px solid #C4C4C4;
-/*    height: 10vh;*/
     line-height: 10vh;
     padding: 0 15px;
+    font-size: 2rem;
+	font-weight: bold;
+	color: #C4C4C4;
     text-transform: capitalize;
 	box-shadow: 0 0 10px rgba(0,0,0,.2);
 	position: relative;
 	z-index: 1;
 }
 
+.groc-header {
+	border-bottom: 1px solid #C4C4C4;
+}
+
 .groc-footer {
-	background-color: #F9F9F9;
 	border-top: 1px solid #C4C4C4;
-	line-height: 10vh;
-    padding: 0 15px;
-    text-transform: capitalize;
-	box-shadow: 0 0 10px rgba(0,0,0,.2);
-	position: relative;
-	z-index: 1;
 }
 
 .groc-main {
@@ -82,10 +80,11 @@ body {
 }
 
 .groc-list__item {
+	position: relative;
 	background-color: #eee;
     text-transform: capitalize;
 	border-bottom: 1px solid #C4C4C4;
-	line-height: 12vh;
+	height: 12vh;
 	overflow: hidden;
 }
 
@@ -94,24 +93,34 @@ body {
 }
 
 .groc-list__item span {
-	position: relative;
-	display: block;
+	position: absolute;
+/*	display: block;*/
 	background-color: #fff;
     padding: 0 1rem;
 	box-shadow: 0 0 10px rgba(0,0,0,.2);
+	color: #000;
+    font-size: 1.8rem;
+	line-height: 12vh;
 	left: 0;
+	right: 0;
 	transition: .5s;
 }
 
-.groc-list__item.opened span {
+.groc-list__item.opened-left span {
 	left: 5rem;
+	right: -5rem;
+}
+
+.groc-list__item.opened-right span {
+	left: -5rem;
+	right: 5rem;
 }
 
 .groc-list__item span i {
 	position: absolute;
 	top: 50%;
-	margin-top: -1rem;
-	font-size: 2rem;
+	margin-top: -1.25rem;
+	font-size: 2.5rem;
 	color: #ccc;
 	cursor: pointer;
 }
