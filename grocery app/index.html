@@ -100,6 +100,14 @@
 							isOpenedRight: !this.state.isOpenedRight
 						});
 					}
+
+					addToCart() {
+						alert(`${this.props.name} is added to cart`);
+					}
+
+					goHome() {
+						alert(`${this.props.name} goes home`);
+					}
 				
 					render() {
 					
@@ -115,6 +123,8 @@
 
 						return(
 							<li className={"groc-list__item" + className}>
+								<i className="fa fa-shopping-cart groc-list__item__icon" aria-hidden="true" onClick={this.addToCart.bind(this)}></i>
+								<i className="fa fa-home groc-list__item__icon" aria-hidden="true" onClick={this.goHome.bind(this)}></i>
 								<span>
 									<i className="fa fa-angle-left" aria-hidden="true" onClick={this.toggleStateLeft.bind(this)}></i>
 									{this.props.name}
