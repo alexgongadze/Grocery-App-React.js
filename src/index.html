@@ -35,63 +35,102 @@
 			{id: 8, name: "sauce"}
 		]
 
-		const Container = () => {
-			return(
-				<div className="groc-container">
-					<Header/>
-					<Main/>
-					<Footer/>
-				</div>
-			);
-		};
+
+		class Container extends React.Component {			
+			constructor() {
+				super();
+				this.state = { filterStatus: false };
+			}
+			render() {
+				return(
+					<div className="groc-container">
+						<Header/>
+						<Main filterPass={this.state.filterStatus}/> {/* !!!!! invoke filter method instead/with changing state*/}
+						<Footer filterInit={this.onFilter.bind(this)}/>
+					</div>
+				);
+			}
+			onFilter(filterStatus) { this.setState({filterStatus}) }
+		}
 
 			const Header = () => <header className="groc-header">header</header>;
+
+			class Footer extends React.Component {
 			
-			const Footer = () => {
-				return (
-					<footer className="groc-footer">
-						<i className="fa fa-list" aria-hidden="true"></i>
-						footer
-						<i className="fa fa-shopping-cart" aria-hidden="true"></i>
-					</footer>
-				);
-			};		
+				// constructor() {
+				// 	super();
+				// 	this.state = { isFiltered: false };
+				// }
+
+				filterItems() {
+					this.props.filterInit(true);
+				}
+
+				unFilterItems() {
+					this.props.filterInit(false);
+				}
+
+				render() {
+					return (
+						<footer className="groc-footer">
+							<i className="fa fa-list groc-footer__icon" aria-hidden="true" onClick={this.unFilterItems.bind(this)}></i>
+							footer
+							<i className="fa fa-shopping-cart groc-footer__icon" aria-hidden="true" onClick={this.filterItems.bind(this)}></i>
+						</footer>
+					);
+				}
+			}
 
 			class Main extends React.Component {
 			
 				constructor() {
 					super();
-					this.state = {
-//						listState: listArr
-					};
+					this.state = { listState: listArr };
 				}
 				
-//				_getItems() {
-//					return this.state.listState.map(item => <Item key={item.id} name={item.name} />);
-//				}
+				_getItems() {
+					return this.state.listState.map(item => <Item key={item.id} id={item.id} name={item.name} needStatus={this._needChange.bind(this)}/>);
+				}
 				
 				render() {
 					
-//					const items = this._getItems();
+					const items = this._getItems();
+
+					// let items = listArr.map(item => <Item key={item.id} id={item.id} name={item.name} needStatus={this._needChange.bind(this)}/>)
 
 					return(
 						<main className="groc-main">
+							<div className="groc-main__status">{'filtered: ' + this.props.filterPass.toString()}</div>
 							<ul className="groc-list">
-								{/* items */}
-								{listArr.map(item => <Item key={item.id} name={item.name} />)/* no ajax */}
+								{items}
 							</ul>
 						</main>
 					);
 				}
-			}
 
+				// listArr = this._needChange();
+
+				// _needChange() {
+				_needChange(atHomeID) {
+					let items = listArr;
+					let idArr = [];
+					if (this.props.filterPass) {
+						items = listArr.filter(item => (item.id) !== atHomeID)
+						// items = listArr.filter(item => item.id % 2 === 0)
+						console.log('_needChange()', items);
+					}
+
+					this.setState({ listState: items });
+				}
+			}
 
 				class Item extends React.Component {
 			
 					constructor(props) {
 						super(props);
 						this.state = {
-							atHome: false
+							atHome: false,
+							id: -1
 						};
 					}
 
@@ -99,6 +138,14 @@
 						this.setState({
 							atHome: !this.state.atHome
 						});
+						let itemID = -2;
+						if (!this.state.atHome) {
+							itemID = this.props.id;
+						}
+						this.setState({
+							id: itemID
+						});
+						this.props.needStatus(itemID);
 					}
 
 					addToCart() {

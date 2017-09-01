@@ -1,6 +1,13 @@
 // colors
 $white: #fff;
+$gray: #C4C4C4;
+$black: #000;
 
+%ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 
 html {
 	box-sizing: border-box;
@@ -30,11 +37,11 @@ body {
 	text-align: center;
 }
 
-.groc-header,
-.groc-footer {
+.groc-header {
+	border-bottom: 1px solid $gray;
 	background-color: #F9F9F9;
 	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-	color: #C4C4C4;
+	color: $gray;
 	font-size: 2rem;
 	font-weight: bold;
 	line-height: 10vh;
@@ -44,22 +51,19 @@ body {
 	z-index: 5;
 }
 
-.groc-header {
-	border-bottom: 1px solid #C4C4C4;
-}
-
-.groc-footer {
-	border-top: 1px solid #C4C4C4;
-}
-
 .groc-main {
 	height: 80vh;
 	// position: relative;
 	// z-index: -5;
+
+	&__status {
+		background-color: $black;
+		color: $white;
+	}
 }
 
 .groc-list {
-	//	background-color: #C4C4C4;
+	//	background-color: $gray;
 	height: 100%;
 	list-style: none;
 	margin: 0;
@@ -84,7 +88,7 @@ body {
 
 	&__item {
 		background-color: #EEE;
-		border-bottom: 1px solid #C4C4C4;
+		border-bottom: 1px solid $gray;
 		height: 12vh;
 		overflow: hidden;
 		position: relative;
@@ -112,26 +116,24 @@ body {
 		}
 
 		span {
+			@extend %ellipsis;
 			background-color: $white;
 			box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-			color: #000;
+			color: $black;
 			font-size: 1.8rem;
 			left: 20%;
 			line-height: 12vh;
-			overflow: hidden;
 			padding: 0 2.5rem;
 			position: absolute;
 			right: 0;
-			text-overflow: ellipsis;
 			transition: .5s;
-			white-space: nowrap;
 			width: 80%;
 
 			i {
 				color: #CCC;
 				cursor: pointer;
 				font-size: 2.5rem;
-				margin-top: -1.25rem;
+				margin-top: -.5em;
 				position: absolute;
 				top: 50%;
 
@@ -148,6 +150,37 @@ body {
 		&.at-home span {
 			left: 0;
 			right: 20%;
+		}
+	}
+}
+
+.groc-footer {
+	@extend %ellipsis;
+	background-color: #F9F9F9;
+	border-top: 1px solid $gray;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+	color: $gray;
+	font-size: 2rem;
+	font-weight: bold;
+	line-height: 10vh;
+	padding: 0 3.8rem;
+	position: relative;
+	text-transform: capitalize;
+	z-index: 5;
+
+	&__icon {
+		cursor: pointer;
+		font-size: 2.5rem;
+		margin-top: -.5em;
+		position: absolute;
+		top: 50%;
+
+		&[class*='list'] {
+			left: 1rem;
+		}
+
+		&[class*='cart'] {
+			right: 1rem;
 		}
 	}
 }
