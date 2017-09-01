@@ -47,27 +47,34 @@
 
 			const Header = () => <header className="groc-header">header</header>;
 			
-			const Footer = () => <footer className="groc-footer">footer</footer>;		
+			const Footer = () => {
+				return (
+					<footer className="groc-footer">
+						<i className="fa fa-list" aria-hidden="true"></i>
+						footer
+						<i className="fa fa-shopping-cart" aria-hidden="true"></i>
+					</footer>
+				);
+			};		
 
-/*			class Main extends React.Component {
+			class Main extends React.Component {
 			
 				constructor() {
 					super();
 					this.state = {
-						listState: listArr
+//						listState: listArr
 					};
 				}
 				
-				_getItems() {
-					return this.state.listState.map(item => <Item key={item.id} name={item.name} />);
-				}
+//				_getItems() {
+//					return this.state.listState.map(item => <Item key={item.id} name={item.name} />);
+//				}
 				
 				render() {
 					
-					const items = this._getItems();
+//					const items = this._getItems();
 
-					return(*/
-			const Main = () => ( /* no ajax */
+					return(
 						<main className="groc-main">
 							<ul className="groc-list">
 								{/* items */}
@@ -75,8 +82,8 @@
 							</ul>
 						</main>
 					);
-/*				}
-			}*/
+				}
+			}
 
 
 				class Item extends React.Component {
@@ -84,43 +91,30 @@
 					constructor(props) {
 						super(props);
 						this.state = {
-							isOpenedLeft: false,
-							isOpenedRight: false
+							atHome: false
 						};
 					}
 
-					toggleStateLeft() {
+					toggleState() {
 						this.setState({
-//							isOpenedRight: false,
-							isOpenedLeft: !this.state.isOpenedLeft
-						});
-					}
-
-					toggleStateRight() {
-						this.setState({
-//							isOpenedLeft: false,
-							isOpenedRight: !this.state.isOpenedRight
+							atHome: !this.state.atHome
 						});
 					}
 
 					addToCart() {
-						alert(`${this.props.name} is added to cart`);
+						alert(`${this.props.name} is needed`);
 					}
 
 					goHome() {
-						alert(`${this.props.name} goes home`);
+						alert(`${this.props.name} is at home`);
 					}
 				
 					render() {
 					
 						let className = "";
 
-						if (this.state.isOpenedLeft) {
-							className = " opened-left";
-						}
-						
-						if (this.state.isOpenedRight) {
-							className = " opened-right";
+						if (this.state.atHome) {
+							className = " at-home";
 						}
 
 						return(
@@ -128,9 +122,9 @@
 								<i className="fa fa-shopping-cart groc-list__item__icon" aria-hidden="true" onClick={this.addToCart.bind(this)}></i>
 								<i className="fa fa-home groc-list__item__icon" aria-hidden="true" onClick={this.goHome.bind(this)}></i>
 								<span>
-									<i className="fa fa-angle-left" aria-hidden="true" onClick={this.toggleStateLeft.bind(this)}></i>
+									<i className="fa fa-angle-left" aria-hidden="true" onClick={this.toggleState.bind(this)}></i>
 									{this.props.name}
-									<i className="fa fa-angle-right" aria-hidden="true" onClick={this.toggleStateRight.bind(this)}></i>
+									<i className="fa fa-angle-right" aria-hidden="true" onClick={this.toggleState.bind(this)}></i>
 								</span>
 							</li>
 						);

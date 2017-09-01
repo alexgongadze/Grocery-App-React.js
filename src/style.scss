@@ -1,0 +1,153 @@
+// colors
+$white: #fff;
+
+
+html {
+	box-sizing: border-box;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	width: 100%;
+}
+
+body {
+	all: inherit;
+}
+
+* {
+	box-sizing: inherit;
+}
+
+.groc-container {
+	box-shadow: 0 0 40px rgba(0, 0, 0, .7);
+	margin: 0 auto;
+	// max-width: 40rem;
+	max-width: 25rem;
+	overflow: hidden;
+	text-align: center;
+}
+
+.groc-header,
+.groc-footer {
+	background-color: #F9F9F9;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+	color: #C4C4C4;
+	font-size: 2rem;
+	font-weight: bold;
+	line-height: 10vh;
+	padding: 0 15px;
+	position: relative;
+	text-transform: capitalize;
+	z-index: 5;
+}
+
+.groc-header {
+	border-bottom: 1px solid #C4C4C4;
+}
+
+.groc-footer {
+	border-top: 1px solid #C4C4C4;
+}
+
+.groc-main {
+	height: 80vh;
+	// position: relative;
+	// z-index: -5;
+}
+
+.groc-list {
+	//	background-color: #C4C4C4;
+	height: 100%;
+	list-style: none;
+	margin: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 0;
+
+	&::-webkit-scrollbar {
+		width: 18px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-clip: padding-box;
+		background-color: rgba(204, 204, 204, .5);
+		border: 5px solid transparent;
+		border-radius: 100px;
+	}
+
+	&:hover::-webkit-scrollbar-thumb {
+		background-color: rgba(204, 204, 204, 1);
+	}
+
+	&__item {
+		background-color: #EEE;
+		border-bottom: 1px solid #C4C4C4;
+		height: 12vh;
+		overflow: hidden;
+		position: relative;
+		text-transform: capitalize;
+
+		&:last-child {
+			border: none;
+		}
+
+		&__icon {
+			color: #999;
+			cursor: pointer;
+			font-size: 2.5rem;
+			position: absolute;
+			top: 4vh;
+			//	z-index: -5;
+			
+			&.fa-shopping-cart {
+				left: 4%;
+			}
+			
+			&.fa-home {
+				right: 4%;
+			}
+		}
+
+		span {
+			background-color: $white;
+			box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+			color: #000;
+			font-size: 1.8rem;
+			left: 20%;
+			line-height: 12vh;
+			overflow: hidden;
+			padding: 0 2.5rem;
+			position: absolute;
+			right: 0;
+			text-overflow: ellipsis;
+			transition: .5s;
+			white-space: nowrap;
+			width: 80%;
+
+			i {
+				color: #CCC;
+				cursor: pointer;
+				font-size: 2.5rem;
+				margin-top: -1.25rem;
+				position: absolute;
+				top: 50%;
+
+				&[class*='left'] {
+					left: 1rem;
+				}
+
+				&[class*='right'] {
+					right: 1rem;
+				}
+			}
+		}
+
+		&.at-home span {
+			left: 0;
+			right: 20%;
+		}
+	}
+}
