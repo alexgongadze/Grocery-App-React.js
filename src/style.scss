@@ -1,7 +1,9 @@
-// colors
 $white: #fff;
 $gray: #C4C4C4;
 $black: #000;
+
+$animationTime: .6s;
+$itemHeight: 12vh;
 
 %ellipsis {
 	overflow: hidden;
@@ -66,36 +68,45 @@ body {
 	//	background-color: $gray;
 	height: 100%;
 	list-style: none;
-	margin: 0;
+	margin: 0 -18px 0 0;
 	overflow-x: hidden;
-	overflow-y: auto;
+	overflow-y: scroll;
 	padding: 0;
 
 	&::-webkit-scrollbar {
 		width: 18px;
 	}
 
-	&::-webkit-scrollbar-thumb {
-		background-clip: padding-box;
-		background-color: rgba(204, 204, 204, .5);
-		border: 5px solid transparent;
-		border-radius: 100px;
-	}
+	// &::-webkit-scrollbar-thumb {
+	// 	background-clip: padding-box;
+	// 	background-color: rgba(204, 204, 204, .5);
+	// 	border: 5px solid transparent;
+	// 	border-radius: 100px;
+	// }
 
-	&:hover::-webkit-scrollbar-thumb {
-		background-color: rgba(204, 204, 204, 1);
-	}
+	// &:hover::-webkit-scrollbar-thumb {
+	// 	background-color: rgba(204, 204, 204, 1);
+	// }
 
 	&__item {
 		background-color: #EEE;
 		border-bottom: 1px solid $gray;
-		height: 12vh;
+		height: $itemHeight;
 		overflow: hidden;
 		position: relative;
 		text-transform: capitalize;
+		transition: z-index $animationTime, height $animationTime, border-width $animationTime/2;
+		z-index: 5;
 
-		&:last-child {
-			border: none;
+		// &:last-child {
+			// border: none;
+		// }
+
+		.groc-list.filtered &.at-home {
+			border-width: 0;
+			height: 0;
+			transition: z-index $animationTime, height $animationTime, border-width ($animationTime/2) ($animationTime/3);
+			z-index: -5;
 		}
 
 		&__icon {
@@ -120,13 +131,13 @@ body {
 			background-color: $white;
 			box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 			color: $black;
-			font-size: 1.8rem;
+			font-size: 1.5rem;			
 			left: 20%;
-			line-height: 12vh;
+			line-height: $itemHeight;
 			padding: 0 2.5rem;
 			position: absolute;
 			right: 0;
-			transition: .5s;
+			transition: $animationTime;
 			width: 80%;
 
 			i {
@@ -181,6 +192,10 @@ body {
 
 		&[class*='cart'] {
 			right: 1rem;
+		}
+
+		&.active {
+			color: $black;
 		}
 	}
 }
