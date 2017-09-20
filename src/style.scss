@@ -1,6 +1,7 @@
 $white: #fff;
-$gray: #C4C4C4;
+$gray: #999;
 $black: #000;
+$lightGray: #F9F9F9;
 
 $animationTime: .6s;
 $itemHeight: 12vh;
@@ -30,6 +31,19 @@ body {
 	box-sizing: inherit;
 }
 
+i.fa {
+	color: $gray;
+	cursor: pointer;
+	font-size: 2.5rem;
+	margin-top: -.5em;
+	position: absolute;
+	top: 50%;
+
+	&.active {
+		color: $black;
+	}
+}			
+
 .groc-container {
 	box-shadow: 0 0 40px rgba(0, 0, 0, .7);
 	margin: 0 auto;
@@ -40,8 +54,8 @@ body {
 }
 
 .groc-header {
+	background-color: $lightGray;
 	border-bottom: 1px solid $gray;
-	background-color: #F9F9F9;
 	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 	color: $gray;
 	font-size: 2rem;
@@ -51,21 +65,24 @@ body {
 	position: relative;
 	text-transform: capitalize;
 	z-index: 5;
+
+	i {
+		right: 1rem;
+	}
 }
 
 .groc-main {
 	height: 80vh;
-	// position: relative;
-	// z-index: -5;
 
 	&__status {
 		background-color: $black;
 		color: $white;
+		font-size: .7rem;
+		letter-spacing: .1em;
 	}
 }
 
 .groc-list {
-	//	background-color: $gray;
 	height: 100%;
 	list-style: none;
 	margin: 0 -18px 0 0;
@@ -95,12 +112,8 @@ body {
 		overflow: hidden;
 		position: relative;
 		text-transform: capitalize;
-		transition: z-index $animationTime, height $animationTime, border-width $animationTime/2;
+		transition: background-color $animationTime, z-index $animationTime, height $animationTime, border-width $animationTime/2;
 		z-index: 5;
-
-		// &:last-child {
-			// border: none;
-		// }
 
 		.groc-list.filtered &.at-home {
 			border-width: 0;
@@ -109,14 +122,12 @@ body {
 			z-index: -5;
 		}
 
-		&__icon {
-			color: #999;
-			cursor: pointer;
-			font-size: 2.5rem;
-			position: absolute;
-			top: 4vh;
-			//	z-index: -5;
-			
+		.groc-list.edited & {
+			background-color: $black;
+		}
+
+		i {
+
 			&.fa-shopping-cart {
 				left: 4%;
 			}
@@ -141,12 +152,6 @@ body {
 			width: 80%;
 
 			i {
-				color: #CCC;
-				cursor: pointer;
-				font-size: 2.5rem;
-				margin-top: -.5em;
-				position: absolute;
-				top: 50%;
 
 				&[class*='left'] {
 					left: 1rem;
@@ -167,7 +172,7 @@ body {
 
 .groc-footer {
 	@extend %ellipsis;
-	background-color: #F9F9F9;
+	background-color: $lightGray;
 	border-top: 1px solid $gray;
 	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 	color: $gray;
@@ -179,12 +184,7 @@ body {
 	text-transform: capitalize;
 	z-index: 5;
 
-	&__icon {
-		cursor: pointer;
-		font-size: 2.5rem;
-		margin-top: -.5em;
-		position: absolute;
-		top: 50%;
+	i {
 
 		&[class*='list'] {
 			left: 1rem;
@@ -192,10 +192,6 @@ body {
 
 		&[class*='cart'] {
 			right: 1rem;
-		}
-
-		&.active {
-			color: $black;
 		}
 	}
 }

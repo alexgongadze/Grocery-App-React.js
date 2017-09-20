@@ -40,25 +40,56 @@
 
 			constructor() {
 				super();
-				this.state = { filterStatus: false };
+				this.state = {
+					filterStatus: false,
+					editStatus: false
+				};
 			}
 
 			_onFilter(filterStatus) {
 				this.setState({filterStatus})
 			}
 
+			_onEdit(editStatus) {
+				this.setState({editStatus})
+			}
+
 			render() {
 				return(
 					<div className="groc-container">
-						<Header/>
-						<Main filterPass={this.state.filterStatus}/> {/* !!!!! invoke filter method instead/with changing state*/}
+						<Header editInit={this._onEdit.bind(this)}/>
+						<Main filterPass={this.state.filterStatus} editPass={this.state.editStatus}/>
 						<Footer filterInit={this._onFilter.bind(this)}/>
 					</div>
 				);
 			}
 		}
 
-			const Header = () => <header className="groc-header">header</header>;
+			class Header extends React.Component {
+			
+				constructor() {
+					super();
+					this.state = { isEdited: false };
+				}
+
+				_editItemsToggle() {
+					this.setState({ isEdited: !this.state.isEdited });
+					this.props.editInit(!this.state.isEdited);
+				}
+
+				render() {
+
+					const edited = this.state.isEdited ? " active" : "";
+					
+					return (
+						<header className="groc-header">
+							header
+							<i className={"fa fa-pencil-square-o" + edited} aria-hidden="true" onClick={this._editItemsToggle.bind(this)}></i>
+						</header>
+					);
+				}
+
+			}
 
 			class Footer extends React.Component {
 			
@@ -84,9 +115,9 @@
 					
 					return (
 						<footer className="groc-footer">
-							<i className={"fa fa-list groc-footer__icon" + notFiltered} aria-hidden="true" onClick={this._unFilterItems.bind(this)}></i>
+							<i className={"fa fa-list" + notFiltered} aria-hidden="true" onClick={this._unFilterItems.bind(this)}></i>
 							footer
-							<i className={"fa fa-shopping-cart groc-footer__icon" + filtered} aria-hidden="true" onClick={this._filterItems.bind(this)}></i>
+							<i className={"fa fa-shopping-cart" + filtered} aria-hidden="true" onClick={this._filterItems.bind(this)}></i>
 						</footer>
 					);
 				}
@@ -102,11 +133,6 @@
 				_getItems() {
 					return this.state.listState.map(item => {
 						return (
-							// <Item
-							// 	key={item.id}
-							// 	id={item.id}
-							// 	name={item.name}
-							// 	needStatus={this._needChange.bind(this)} />
 							<Item
 								key={item.id}
 								id={item.id}
@@ -119,32 +145,20 @@
 					
 					const items = this._getItems();
 
-					const className = this.props.filterPass ? " filtered" : "";
+					const filterClass = this.props.filterPass ? " filtered" : "";
 
-					// let items = listArr.map(item => <Item key={item.id} id={item.id} name={item.name} needStatus={this._needChange.bind(this)}/>)
+					const editedClass = this.props.editPass ? " edited" : "";
 
 					return(
 						<main className="groc-main">
-							<div className="groc-main__status">{'filtered: ' + this.props.filterPass.toString()}</div>
-							<ul className={"groc-list" + className}>
+							<div className="groc-main__status">{'Filtered: ' + this.props.filterPass.toString()}</div>
+							<div className="groc-main__status">{'Edited: ' + this.props.editPass.toString()}</div>
+							<ul className={"groc-list" + filterClass + editedClass}>
 								{items}
 							</ul>
 						</main>
 					);
 				}
-
-				// listArr = this._needChange();
-
-				// _needChange(atHomeID) {
-				// 	let items = listArr;
-				// 	let idArr = [];
-				// 	if (this.props.filterPass) {
-				// 		items = listArr.filter(item => (item.id) !== atHomeID)
-				// 		console.log('_needChange()', items);
-				// 	}
-
-				// 	this.setState({ listState: items });
-				// }
 			}
 
 				class Item extends React.Component {
@@ -152,7 +166,6 @@
 					constructor(props) {
 						super(props);
 						this.state = {
-							// id: -1,
 							atHome: false
 						};
 					}
@@ -161,14 +174,6 @@
 						this.setState({
 							atHome: !this.state.atHome
 						});
-						// let itemID = -2;
-						// if (!this.state.atHome) {
-						// 	itemID = this.props.id;
-						// }
-						// this.setState({
-						// 	id: itemID
-						// });
-						// this.props.needStatus(itemID);
 					}
 
 					addToCart() {
@@ -181,12 +186,12 @@
 				
 					render() {
 					
-						const className = this.state.atHome ? " at-home" : "";
+						const atHomeClass = this.state.atHome ? " at-home" : "";
 
 						return(
-							<li className={"groc-list__item" + className}>
-								<i className="fa fa-shopping-cart groc-list__item__icon" aria-hidden="true" onClick={this.addToCart.bind(this)}></i>
-								<i className="fa fa-home groc-list__item__icon" aria-hidden="true" onClick={this.goHome.bind(this)}></i>
+							<li className={"groc-list__item" + atHomeClass}>
+								<i className="fa fa-shopping-cart" aria-hidden="true" onClick={this.addToCart.bind(this)}></i>
+								<i className="fa fa-home" aria-hidden="true" onClick={this.goHome.bind(this)}></i>
 								<span>
 									<i className="fa fa-angle-left" aria-hidden="true" onClick={this.toggleState.bind(this)}></i>
 									{this.props.name}
