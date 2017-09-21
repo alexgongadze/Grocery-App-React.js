@@ -24,6 +24,8 @@
 	
 	<script type="text/babel">
 
+		const appName = "Groceries";
+
 		const listArr = [ /* no ajax */
 			{id: 1, name: "bread"},
 			{id: 2, name: "bacon"},
@@ -36,6 +38,7 @@
 		]
 
 
+
 		class Container extends React.Component {
 
 			constructor() {
@@ -46,20 +49,20 @@
 				};
 			}
 
-			_onFilter(filterStatus) {
+			onFilter(filterStatus) {
 				this.setState({filterStatus})
 			}
 
-			_onEdit(editStatus) {
+			onEdit(editStatus) {
 				this.setState({editStatus})
 			}
 
 			render() {
 				return(
 					<div className="groc-container">
-						<Header editInit={this._onEdit.bind(this)}/>
+						<Header editInit={this.onEdit.bind(this)}/>
 						<Main filterPass={this.state.filterStatus} editPass={this.state.editStatus}/>
-						<Footer filterInit={this._onFilter.bind(this)}/>
+						<Footer filterInit={this.onFilter.bind(this)}/>
 					</div>
 				);
 			}
@@ -72,19 +75,21 @@
 					this.state = { isEdited: false };
 				}
 
-				_editItemsToggle() {
+				editItemsToggle() {
 					this.setState({ isEdited: !this.state.isEdited });
 					this.props.editInit(!this.state.isEdited);
 				}
 
 				render() {
 
-					const edited = this.state.isEdited ? " active" : "";
+					const editModeClass = this.state.isEdited ? " edit-mode" : "";
 					
 					return (
-						<header className="groc-header">
-							header
-							<i className={"fa fa-pencil-square-o" + edited} aria-hidden="true" onClick={this._editItemsToggle.bind(this)}></i>
+						<header className={"groc-header" + editModeClass}>
+							<i className="fa fa-plus-circle" aria-hidden="true" onClick={this.editItemsToggle.bind(this)}></i>
+							<span>{appName}</span>
+							<i className="fa fa-pencil-square-o" aria-hidden="true" onClick={this.editItemsToggle.bind(this)}></i>
+							<div className="groc-header__done" onClick={this.editItemsToggle.bind(this)}>done</div>
 						</header>
 					);
 				}
@@ -98,12 +103,12 @@
 					this.state = { isFiltered: false };
 				}
 
-				_filterItems() {
+				filterItems() {
 					this.props.filterInit(true);
 					this.setState({ isFiltered: true });
 				}
 
-				_unFilterItems() {
+				unFilterItems() {
 					this.props.filterInit(false);
 					this.setState({ isFiltered: false });
 				}
@@ -115,9 +120,9 @@
 					
 					return (
 						<footer className="groc-footer">
-							<i className={"fa fa-list" + notFiltered} aria-hidden="true" onClick={this._unFilterItems.bind(this)}></i>
+							<i className={"fa fa-list" + notFiltered} aria-hidden="true" onClick={this.unFilterItems.bind(this)}></i>
 							footer
-							<i className={"fa fa-shopping-cart" + filtered} aria-hidden="true" onClick={this._filterItems.bind(this)}></i>
+							<i className={"fa fa-shopping-cart" + filtered} aria-hidden="true" onClick={this.filterItems.bind(this)}></i>
 						</footer>
 					);
 				}
@@ -130,30 +135,31 @@
 					this.state = { listState: listArr };
 				}
 				
-				_getItems() {
+				getItems() {
 					return this.state.listState.map(item => {
 						return (
 							<Item
 								key={item.id}
 								id={item.id}
-								name={item.name} />
+								name={item.name}
+								edited={this.props.editPass} />
 						);
 					});
 				}
 				
 				render() {
 					
-					const items = this._getItems();
+					const items = this.getItems();
 
 					const filterClass = this.props.filterPass ? " filtered" : "";
 
-					const editedClass = this.props.editPass ? " edited" : "";
+					// const editedClass = this.props.editPass ? " edited" : "";
 
 					return(
 						<main className="groc-main">
 							<div className="groc-main__status">{'Filtered: ' + this.props.filterPass.toString()}</div>
 							<div className="groc-main__status">{'Edited: ' + this.props.editPass.toString()}</div>
-							<ul className={"groc-list" + filterClass + editedClass}>
+							<ul className={"groc-list" + filterClass /* + editedClass*/}>
 								{items}
 							</ul>
 						</main>
@@ -166,13 +172,20 @@
 					constructor(props) {
 						super(props);
 						this.state = {
-							atHome: false
+							atHome: false,
+							deleted: false
 						};
 					}
 
-					toggleState() {
+					toggleHomeState() {
 						this.setState({
 							atHome: !this.state.atHome
+						});
+					}
+
+					deleteItem() {
+						this.setState({
+							deleted: true
 						});
 					}
 
@@ -187,15 +200,18 @@
 					render() {
 					
 						const atHomeClass = this.state.atHome ? " at-home" : "";
+						const deletedClass = this.state.deleted ? " deleted" : "";
+						const editedClass = this.props.edited ? " edited" : "";
 
 						return(
-							<li className={"groc-list__item" + atHomeClass}>
+							<li className={"groc-list__item" + atHomeClass + editedClass + deletedClass}>
+								<i className="fa fa-minus-circle" aria-hidden="true" onClick={this.deleteItem.bind(this)}></i>
 								<i className="fa fa-shopping-cart" aria-hidden="true" onClick={this.addToCart.bind(this)}></i>
 								<i className="fa fa-home" aria-hidden="true" onClick={this.goHome.bind(this)}></i>
 								<span>
-									<i className="fa fa-angle-left" aria-hidden="true" onClick={this.toggleState.bind(this)}></i>
+									<i className="fa fa-angle-left" aria-hidden="true" onClick={this.toggleHomeState.bind(this)}></i>
 									{this.props.name}
-									<i className="fa fa-angle-right" aria-hidden="true" onClick={this.toggleState.bind(this)}></i>
+									<i className="fa fa-angle-right" aria-hidden="true" onClick={this.toggleHomeState.bind(this)}></i>
 								</span>
 							</li>
 						);

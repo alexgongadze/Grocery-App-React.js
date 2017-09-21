@@ -25,7 +25,8 @@ i.fa {
   font-size: 2.5rem;
   margin-top: -.5em;
   position: absolute;
-  top: 50%; }
+  top: 50%;
+  transition: 0.6s; }
   i.fa.active {
     color: #000; }
 
@@ -48,13 +49,34 @@ i.fa {
   position: relative;
   text-transform: capitalize;
   z-index: 5; }
-  .groc-header i {
+  .groc-header i[class*='pencil'] {
     right: 1rem; }
+  .groc-header i[class*='plus'] {
+    color: #000;
+    left: -2.5rem;
+    line-height: 1.2; }
+  .groc-header__done {
+    color: #000;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    margin-top: -.5em;
+    position: absolute;
+    right: -50%;
+    text-transform: capitalize;
+    top: 50%;
+    transition: 0.6s; }
+    .groc-header.edit-mode .groc-header__done {
+      right: 1rem; }
+  .groc-header.edit-mode i[class*='pencil'] {
+    right: -3.75rem; }
+  .groc-header.edit-mode i[class*='plus'] {
+    left: 2.5rem; }
 
 .groc-main {
   height: 80vh; }
   .groc-main__status {
-    background-color: #000;
+    background-color: #3498DB;
     color: #fff;
     font-size: .7rem;
     letter-spacing: .1em; }
@@ -68,45 +90,64 @@ i.fa {
   padding: 0; }
   .groc-list::-webkit-scrollbar {
     width: 18px; }
-  .groc-list__item {
-    background-color: #EEE;
-    border-bottom: 1px solid #999;
-    height: 12vh;
-    overflow: hidden;
-    position: relative;
-    text-transform: capitalize;
-    transition: background-color 0.6s, z-index 0.6s, height 0.6s, border-width 0.3s;
-    z-index: 5; }
-    .groc-list.filtered .groc-list__item.at-home {
-      border-width: 0;
-      height: 0;
-      transition: z-index 0.6s, height 0.6s, border-width 0.3s 0.2s;
-      z-index: -5; }
-    .groc-list.edited .groc-list__item {
-      background-color: #000; }
-    .groc-list__item i.fa-shopping-cart {
-      left: 4%; }
-    .groc-list__item i.fa-home {
-      right: 4%; }
-    .groc-list__item span {
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      color: #000;
-      font-size: 1.5rem;
-      left: 20%;
-      line-height: 12vh;
-      padding: 0 2.5rem;
-      position: absolute;
-      right: 0;
-      transition: 0.6s;
-      width: 80%; }
-      .groc-list__item span i[class*='left'] {
-        left: 1rem; }
-      .groc-list__item span i[class*='right'] {
-        right: 1rem; }
-    .groc-list__item.at-home span {
-      left: 0;
-      right: 20%; }
+
+.groc-list__item {
+  background-color: #EEE;
+  border-bottom: 1px solid #999;
+  height: 12vh;
+  overflow: hidden;
+  position: relative;
+  text-transform: capitalize;
+  transition: background-color 0.6s, height 0.6s, border-width 0.3s;
+  z-index: 5; }
+  .groc-list.filtered .groc-list__item.at-home {
+    border-width: 0;
+    height: 0;
+    transition: height 0.6s, border-width 0.3s 0.2s;
+    z-index: -5; }
+  .groc-list__item i[class*='minus'] {
+    color: #E74C3C;
+    left: -5rem; }
+  .groc-list__item i[class*='cart'] {
+    left: 1.25rem; }
+  .groc-list__item i[class*='home'] {
+    right: 1.25rem; }
+  .groc-list__item span {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #000;
+    font-size: 1.5rem;
+    left: 5rem;
+    line-height: 12vh;
+    padding: 0 2.5rem;
+    position: absolute;
+    right: 0;
+    transition: 0.6s;
+    width: calc(100% - 2.5rem*2); }
+    .groc-list__item span i[class*='left'] {
+      left: 1rem; }
+    .groc-list__item span i[class*='right'] {
+      right: 1rem; }
+  .groc-list__item.at-home span {
+    left: 0;
+    right: 5rem; }
+  .groc-list__item.edited {
+    background-color: #fff; }
+    .groc-list__item.edited i[class*='cart'] {
+      left: -5rem; }
+    .groc-list__item.edited i[class*='minus'] {
+      left: 2.5rem; }
+    .groc-list__item.edited span {
+      left: 7.5rem;
+      right: -2.5rem; }
+      .groc-list__item.edited span i[class*='left'] {
+        left: -2.5rem; }
+  .groc-list__item.deleted {
+    border-width: 0;
+    height: 0;
+    opacity: 0;
+    transition: opacity 0.6s, height 0.6s, border-width 0.3s 0.2s;
+    z-index: -5; }
 
 .groc-footer {
   background-color: #F9F9F9;

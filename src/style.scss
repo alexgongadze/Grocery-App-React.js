@@ -2,9 +2,15 @@ $white: #fff;
 $gray: #999;
 $black: #000;
 $lightGray: #F9F9F9;
+// https://htmlacademy.ru/courses/53/run/4
+$red: #E74C3C;
+$green: #2CC36C;
+$blue: #3498DB;
+$orange: #E67E22;
 
 $animationTime: .6s;
 $itemHeight: 12vh;
+$iconSize: 2.5rem;
 
 %ellipsis {
 	overflow: hidden;
@@ -34,10 +40,11 @@ body {
 i.fa {
 	color: $gray;
 	cursor: pointer;
-	font-size: 2.5rem;
+	font-size: $iconSize;
 	margin-top: -.5em;
 	position: absolute;
 	top: 50%;
+	transition: $animationTime;
 
 	&.active {
 		color: $black;
@@ -67,7 +74,46 @@ i.fa {
 	z-index: 5;
 
 	i {
-		right: 1rem;
+		&[class*='pencil'] {
+			right: $iconSize/2.5;
+		}
+
+		&[class*='plus'] {
+			color: $black;
+			// font-size: $iconSize*.75;
+			// left: -$iconSize*1.5;
+			left: -$iconSize;
+			line-height: 1.2;
+		}
+	}
+
+	&__done {
+		color: $black;
+		cursor: pointer;
+		font-size: 1.5rem;
+		line-height: 1;
+		margin-top: -.5em;
+		position: absolute;
+		right: -50%;
+		text-transform: capitalize;
+		top: 50%;
+		transition: $animationTime;
+
+		.groc-header.edit-mode & {
+			right: $iconSize/2.5;
+		}
+	}
+
+	&.edit-mode {
+		i {
+			&[class*='pencil'] {
+				right: -$iconSize*1.5;
+			}
+
+			&[class*='plus'] {
+				left: $iconSize;
+			}
+		}
 	}
 }
 
@@ -75,7 +121,7 @@ i.fa {
 	height: 80vh;
 
 	&__status {
-		background-color: $black;
+		background-color: $blue;
 		color: $white;
 		font-size: .7rem;
 		letter-spacing: .1em;
@@ -93,80 +139,108 @@ i.fa {
 	&::-webkit-scrollbar {
 		width: 18px;
 	}
-
 	// &::-webkit-scrollbar-thumb {
 	// 	background-clip: padding-box;
 	// 	background-color: rgba(204, 204, 204, .5);
 	// 	border: 5px solid transparent;
 	// 	border-radius: 100px;
 	// }
-
 	// &:hover::-webkit-scrollbar-thumb {
 	// 	background-color: rgba(204, 204, 204, 1);
 	// }
+}
 
-	&__item {
-		background-color: #EEE;
-		border-bottom: 1px solid $gray;
-		height: $itemHeight;
-		overflow: hidden;
-		position: relative;
-		text-transform: capitalize;
-		transition: background-color $animationTime, z-index $animationTime, height $animationTime, border-width $animationTime/2;
-		z-index: 5;
+.groc-list__item {
+	background-color: #EEE;
+	border-bottom: 1px solid $gray;
+	height: $itemHeight;
+	overflow: hidden;
+	position: relative;
+	text-transform: capitalize;
+	transition: background-color $animationTime, height $animationTime, border-width $animationTime/2;
+	z-index: 5;
 
-		.groc-list.filtered &.at-home {
-			border-width: 0;
-			height: 0;
-			transition: z-index $animationTime, height $animationTime, border-width ($animationTime/2) ($animationTime/3);
-			z-index: -5;
+	.groc-list.filtered &.at-home {
+		border-width: 0;
+		height: 0;
+		transition: height $animationTime, border-width ($animationTime/2) ($animationTime/3);
+		z-index: -5;
+	}
+
+	i {
+		&[class*='minus'] {
+			color: $red;
+			left: -$iconSize*2;
 		}
 
-		.groc-list.edited & {
-			background-color: $black;
+		&[class*='cart'] {
+			left: $iconSize/2;
 		}
+		
+		&[class*='home'] {
+			right: $iconSize/2;
+		}
+	}
+
+	span {
+		@extend %ellipsis;
+		background-color: $white;
+		box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+		color: $black;
+		font-size: 1.5rem;			
+		left: $iconSize*2;
+		line-height: $itemHeight;
+		padding: 0 $iconSize;
+		position: absolute;
+		right: 0;
+		transition: $animationTime;
+		width: calc(100% - #{$iconSize}*2);
 
 		i {
-
-			&.fa-shopping-cart {
-				left: 4%;
+			&[class*='left'] {
+				left: $iconSize/2.5;
 			}
-			
-			&.fa-home {
-				right: 4%;
+
+			&[class*='right'] {
+				right: $iconSize/2.5;
+			}
+		}
+	}
+
+	&.at-home span {
+		left: 0;
+		right: $iconSize*2;
+	}
+
+	&.edited {
+			background-color: $white;
+
+		i {	
+			&[class*='cart'] {
+				left: -$iconSize*2;
+			}
+
+			&[class*='minus'] {
+				left: $iconSize;
 			}
 		}
 
 		span {
-			@extend %ellipsis;
-			background-color: $white;
-			box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-			color: $black;
-			font-size: 1.5rem;			
-			left: 20%;
-			line-height: $itemHeight;
-			padding: 0 2.5rem;
-			position: absolute;
-			right: 0;
-			transition: $animationTime;
-			width: 80%;
+			left: $iconSize*3;
+			right: -$iconSize;
 
-			i {
-
-				&[class*='left'] {
-					left: 1rem;
-				}
-
-				&[class*='right'] {
-					right: 1rem;
-				}
+			i[class*='left'] {
+				left: -$iconSize;
 			}
 		}
+	}
 
-		&.at-home span {
-			left: 0;
-			right: 20%;
-		}
+	&.deleted {
+		border-width: 0;
+		height: 0;
+		opacity: 0;
+		transition: opacity $animationTime, height $animationTime, border-width ($animationTime/2) ($animationTime/3);
+		z-index: -5;
 	}
 }
 
@@ -185,13 +259,12 @@ i.fa {
 	z-index: 5;
 
 	i {
-
 		&[class*='list'] {
-			left: 1rem;
+			left: $iconSize/2.5;
 		}
 
 		&[class*='cart'] {
-			right: 1rem;
+			right: $iconSize/2.5;
 		}
 	}
 }
